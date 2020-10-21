@@ -1,0 +1,41 @@
+import React, { memo } from 'react'
+import PropTypes from 'prop-types'
+import { Loader } from '../../ui/Loader'
+import { Button } from '../../ui/Button'
+
+export function Recipes({ recipes, onClick }) {
+    if (recipes === null) {
+        return (
+            <Loader />
+        )
+    }
+
+    return (
+        <div className="row">
+            {recipes.map(r => <div className="col-md-4 mb-4" key={r.id}>
+                <Recipe recipe={r} onClick={onClick} />
+            </div>)}
+        </div>
+    )
+}
+Recipes.propTypes = {
+    recipes: PropTypes.array,
+    onClick: PropTypes.func.isRequired
+}
+
+const Recipe = memo(function ({ recipe, onClick }) {
+
+    return (
+        <div className="card">
+            <div className="card-body">
+                <div className="card-title">
+                    {recipe.title}
+                </div>
+                <p className="card-text">
+                    {recipe.short}
+                </p>
+                <Button onClick={() => onClick(recipe)}>Voir la recette</Button>
+            </div>
+        </div>
+    )
+})
